@@ -1,0 +1,55 @@
+{literal}
+<script type="text/javascript" type="text/javascript">
+
+	var beginDate = new Date();
+
+	Ext.onReady(function(){
+	var date = new Ext.form.DateField({
+			allowBlank: true,
+			format: 'Y-m-d',
+			name: 'begin_date',
+			value: '{/literal}{$begin_date}{literal}', 
+			renderTo: 'begin_date'
+		});
+		var date = new Ext.form.DateField({
+			allowBlank: true,
+			format: 'Y-m-d',
+			name: 'end_date',
+			value: '{/literal}{$end_date}{literal}',
+			renderTo: 'end_date'
+		});
+	});
+	function download(){	
+		document.getElementById("action").value = "excel";		
+		document.getElementById("dates").submit();
+	}
+	
+	function update(){	
+		document.getElementById("action").value = "update";		
+		document.getElementById("dates").submit();
+	}
+</script>
+{/literal}
+<div id="graph">
+	<img src="plugins/PatoLeon.Reports/graph.php?begin_date={$begin_date}&end_date={$end_date}&users={$selected_users}" width="950" height="260">
+</div>
+<form id="dates" name="dates" action="{$url}" method="post">
+	<input type="hidden" id="action" name="action" value="{$action}" />
+	<label>{i18n}Users{/i18n}</label>
+	<div id="users">
+		<select id="users" name="users[]" multiple="multiple" size="7">
+			<option value="0"{if $selected_users==0} selected{/if}>{i18n}All users{/i18n}</option>
+			{foreach from=$users item=user}
+				<option value="{$user.Id}"  {$user.selected}>{$user.UserName}</option>
+			{/foreach}
+		</select>
+	</div>
+	<label>{i18n}Dates{/i18n}</label>
+	<div id="dates">	
+		Start date : <div id='begin_date'></div> | End date : <div id='end_date'></div>
+	</div>
+	<hr height="1Px" />
+	<div id="buttons">
+		<a href="javascript:update();">{i18n}Update{/i18n}</a> | <a href="javascript:download();" class="form_cancel">{i18n}Download{/i18n}</a>
+	</div>
+</form>
